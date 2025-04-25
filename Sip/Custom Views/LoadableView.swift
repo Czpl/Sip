@@ -1,39 +1,28 @@
 import Cocoa
 
 protocol LoadableView: AnyObject {
-    func load(fromNIBNamed nibName: String) -> Bool
+    // Change return type to return the top-level view from the nib
+    func load(fromNIBNamed nibName: String) -> NSView?
+    // The add method remains the same
     func add(toView parentView: NSView)
 }
 
-
 extension LoadableView where Self: NSView {
-    func load(fromNIBNamed nibName: String) -> Bool {
-        var nibObjects: NSArray?
+    func load(fromNIBNamed nibName: String) -> NSView? {
+        var topLevelObjects: NSArray? = nil
         let nibName = NSNib.Name(stringLiteral: nibName)
-        
-        if Bundle.main.loadNibNamed(nibName, owner: self, topLevelObjects: &nibObjects) {
-            guard let nibObjects = nibObjects else { return false }
-            
-            let viewObjects = nibObjects.filter { $0 is NSView }
-            
-            if viewObjects.count > 0 {
-                guard let view = viewObjects[0] as? NSView else { return false }
-                self.addSubview(view)
-                
-                view.translatesAutoresizingMaskIntoConstraints = false
-                view.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-                view.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-                view.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-                view.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-                
-                return true
-            }
+
+        if Bundle.main.loadNibNamed(nibName, owner: self, topLevelObjects: &topLevelObjects) {
+            guard let topLevelObjects = topLevelObjects else { return nil }
+
+            // Find and return the first NSView from the loaded objects
+            return topLevelObjects.first { $0 is NSView } as? NSView
         }
-        
-        return false
+
+        return nil
     }
 
-    
+    // Your original add method remains the same
     func add(toView parentView: NSView) {
         parentView.addSubview(self)
         self.translatesAutoresizingMaskIntoConstraints = false

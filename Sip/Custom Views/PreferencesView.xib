@@ -8,7 +8,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PreferencesView" customModule="Sip" customModuleProvider="target">
             <connections>
-                <outlet property="timezoneIDsPopup" destination="njp-qd-L14" id="TSt-BF-eNe"/>
+                <outlet property="activityLevelPopup" destination="njp-qd-L14" id="TSt-BF-eNe"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>

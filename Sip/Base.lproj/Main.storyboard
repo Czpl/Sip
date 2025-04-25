@@ -20,7 +20,7 @@
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="WvO-Gv-8Qk"/>
-                                        <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW"/>
+                                        <menuItem title="Settings" keyEquivalent="," id="BOF-NM-1cW"/>
                                         <menuItem title="About Sip" id="5kV-Vb-QxS" userLabel="About Sip">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
@@ -40,6 +40,9 @@
                             </menuItem>
                         </items>
                     </menu>
+                    <connections>
+                        <outlet property="delegate" destination="Voe-Tx-rLC" id="fO8-xO-u7F"/>
+                    </connections>
                 </application>
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Sip" customModuleProvider="target">
                     <connections>
@@ -52,12 +55,12 @@
             </objects>
             <point key="canvasLocation" x="75" y="0.0"/>
         </scene>
-        <!--View Controller-->
+        <!--Select Activity Level-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="Sip" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Select Activity Level" storyboardIdentifier="preferencesID" id="XfG-lQ-9wD" customClass="ViewController" customModule="Sip" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <rect key="frame" x="0.0" y="0.0" width="350" height="130"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </view>
                 </viewController>

@@ -3,44 +3,69 @@ import Cocoa
 class SipView: NSView, LoadableView {
 
     // MARK: - IBOutlet Properties
-    
     @IBOutlet weak var volumeLabel: NSTextField!
-        
-    @IBOutlet weak var timeLabel: NSTextField!
-    
-    
+    fileprivate var sipsAmount: Int = UserDefaults.standard.integer(forKey: "sipsAmount")
     var timer: Timer?
 
     // MARK: - Init
-    
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
-        _ = load(fromNIBNamed: "SipView")
+
+        if let loadedNibView = load(fromNIBNamed: "SipView") {
+            loadedNibView.subviews.forEach { subview in
+                 self.addSubview(subview)
+            }
+
+        } else {
+            print("Error: Could not load SipView.xib content in init.")
+        }
     }
-    
-    
+
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+         if let loadedNibView = load(fromNIBNamed: "SipView") {
+            loadedNibView.subviews.forEach { subview in
+                self.addSubview(subview)
+            }
+            // Handle constraints if necessary
+        } else {
+             print("Error: Could not load SipView.xib content in init(coder:).")
+        }
     }
-    
-    @objc fileprivate func showDateAndTimeInfo() {
-        guard let volumeLabel = volumeLabel, let timeLabel = timeLabel else {
-                print("Labels not connected yet.")
+
+     override func awakeFromNib() {
+            super.awakeFromNib()
+            showSipInfo() // Call here to show initial values immediately
+        }
+
+    @IBAction func sipButtonClicked(_ sender: Any) {
+        sipsAmount += 1
+        UserDefaults.standard.set(sipsAmount, forKey: "sipsAmount")
+        if let appDelegate = NSApplication.shared.delegate as? AppDelegate {
+            print("Successfully accessed AppDelegate in PreferencesView")
+            appDelegate.updateStatusBarIcon(isEmpty: false) // Now it's safer to call
+        } else {
+            print("Failed to access AppDelegate in PreferencesView (later)")
+        }
+        showSipInfo()
+    }
+
+    @objc func showSipInfo() {
+        // Safely unwrap the outlets
+        guard let volumeLabel = volumeLabel else {
+                print("Labels still not connected after loading. Check SipView.xib File's Owner and outlet connections.")
                 return
             }
-        let date = Date()
-        let formatter = DateFormatter()
-        let volume = 0
-        volumeLabel.stringValue = "\(volume) ml"
+
+        let sips = UserDefaults.standard.integer(forKey: "sipsAmount")
+
+        volumeLabel.stringValue = "\(sips) sips"
         
-        formatter.timeStyle = .medium
-        timeLabel.stringValue = formatter.string(from: date)
+        
     }
-    
-    func startTimer() {
-        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(showDateAndTimeInfo), userInfo: nil, repeats: true)
-        timer?.fire()
-        
-        RunLoop.current.add(timer!, forMode: .common)
+
+    override func removeFromSuperview() {
+        super.removeFromSuperview()
     }
 }
