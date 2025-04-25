@@ -4,7 +4,8 @@ class ViewController: NSViewController {
     
     override func viewDidAppear() {
         super.viewWillAppear()
-
+        
+        view.window?.title = "Preferences"
         view.window?.styleMask.remove(.resizable)
         view.window?.styleMask.remove(.miniaturizable)
         view.window?.center()
@@ -15,16 +16,11 @@ class ViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
 
     override var representedObject: Any? {
         didSet {
-        // Update the view, if already loaded.
         }
     }
-
-    
 }
 

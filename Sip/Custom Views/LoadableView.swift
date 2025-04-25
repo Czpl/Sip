@@ -1,9 +1,7 @@
 import Cocoa
 
 protocol LoadableView: AnyObject {
-    // Change return type to return the top-level view from the nib
     func load(fromNIBNamed nibName: String) -> NSView?
-    // The add method remains the same
     func add(toView parentView: NSView)
 }
 
@@ -15,14 +13,12 @@ extension LoadableView where Self: NSView {
         if Bundle.main.loadNibNamed(nibName, owner: self, topLevelObjects: &topLevelObjects) {
             guard let topLevelObjects = topLevelObjects else { return nil }
 
-            // Find and return the first NSView from the loaded objects
             return topLevelObjects.first { $0 is NSView } as? NSView
         }
 
         return nil
     }
 
-    // Your original add method remains the same
     func add(toView parentView: NSView) {
         parentView.addSubview(self)
         self.translatesAutoresizingMaskIntoConstraints = false
